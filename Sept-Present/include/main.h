@@ -62,20 +62,22 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-void autonomous(void);
-void initialize(void);
-void disabled(void);
-void competition_initialize(void);
-void opcontrol(void);
+    void autonomous(void);
+    void initialize(void);
+    void disabled(void);
+    void competition_initialize(void);
+    void opcontrol(void);
 #ifdef __cplusplus
 }
 #endif
 
 #ifdef __cplusplus
-/**
- * You can add C++-only headers here
- */
-//#include <iostream>
+    // You can add C++-only headers here
+    #include "pragma.h"
+    #include "./subsystems./base.h"
+    //using namespace std;
+    using namespace pros;
+    //#include <iostream>
 #endif
 
 #endif  // _PROS_MAIN_H_
