@@ -58,7 +58,9 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {}
+void autonomous() {
+	auton();
+}
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -81,6 +83,17 @@ void opcontrol() {
 	while (true) {
 		runLeftBase(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y));
 		runRightBase(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
+		if(master.get_digital(E_CONTROLLER_DIGITAL_L1))
+			runIntake(80);
+		else if (master.get_digital(E_CONTROLLER_DIGITAL_L2))
+			runIntake(-80);
+		else runIntake(0);
+
+		if(master.get_digital(E_CONTROLLER_DIGITAL_R1))
+			runLift(60);
+		else if (master.get_digital(E_CONTROLLER_DIGITAL_R2))
+			runLift(-60);
+		else runLift(0);
 
 		pros::delay(20);
 	}

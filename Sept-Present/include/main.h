@@ -75,7 +75,11 @@ extern "C" {
     // You can add C++-only headers here
     #include "pragma.h"
     #include "./subsystems./base.h"
+    #include "./subsystems./intake.h"
+    #include "./subsystems./lift.h"
+    #include "autons.h"
     //using namespace std;
+    #include <cmath>
     using namespace pros;
     //#include <iostream>
 #endif
