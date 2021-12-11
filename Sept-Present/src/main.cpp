@@ -83,18 +83,17 @@ void opcontrol() {
 	while (true) {
 		runLeftBase(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y));
 		runRightBase(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
-		if(master.get_digital(E_CONTROLLER_DIGITAL_L1))
-			runIntake(80);
-		else if (master.get_digital(E_CONTROLLER_DIGITAL_L2))
-			runIntake(-80);
-		else runIntake(0);
 
 		if(master.get_digital(E_CONTROLLER_DIGITAL_R1))
-			runLift(60);
+			runLift(1400 - lift.get_position());
 		else if (master.get_digital(E_CONTROLLER_DIGITAL_R2))
-			runLift(-60);
+			runLift(-lift.get_position());
 		else runLift(0);
 
+		if (master.get_digital(E_CONTROLLER_DIGITAL_L1))
+			setBool(false);
+		else if (master.get_digital(E_CONTROLLER_DIGITAL_L2))
+			setBool(true);
 		pros::delay(20);
 	}
 }

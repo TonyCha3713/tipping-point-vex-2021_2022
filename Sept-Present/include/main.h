@@ -77,6 +77,7 @@ extern "C" {
     #include "./subsystems./base.h"
     #include "./subsystems./intake.h"
     #include "./subsystems./lift.h"
+    #include "./subsystems./pneumatics.h"
     #include "autons.h"
     //using namespace std;
     #include <cmath>

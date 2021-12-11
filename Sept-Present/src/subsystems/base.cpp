@@ -15,7 +15,7 @@ void runLeftBase(double input)
     leftBase1.move(input);
     leftBase2.move(input);
     leftBase3.move(input);
-    std::cout << "left " << input << std::endl;
+    //std::cout << "left " << input << std::endl;
 }
 
 void runRightBase(double input)
@@ -33,7 +33,7 @@ void runRightBase(double input)
     rightBase1.move(input);
     rightBase2.move(input);
     rightBase3.move(input);
-    std::cout << "right " << input << std::endl;
+    //std::cout << "right " << input << std::endl;
 }
 
 void moveBase(double input, double speed)
@@ -44,6 +44,19 @@ void moveBase(double input, double speed)
     rightBase1.move_relative(input, speed); 
     rightBase2.move_relative(input, speed); 
     rightBase3.move_relative(input, speed); 
-     while (!((leftBase2.get_position() < input + 5) && (leftBase2.get_position() > input - 5))) 
+    while (!((leftBase2.get_position() < input + 5) && (leftBase2.get_position() > input - 5))) 
         pros::delay(2);
+}
+
+void turnBase(double input, double speed)
+{
+    leftBase1.move_relative(input, speed);
+    leftBase2.move_relative(input, speed);
+    leftBase3.move_relative(input, speed);
+    rightBase1.move_relative(-input, speed);
+    rightBase2.move_relative(-input, speed);
+    rightBase3.move_relative(-input, speed);
+    while(!((leftBase2.get_position() < input + 5) && (leftBase2.get_position() > input - 5)
+        || (rightBase2.get_position() < input + 5) && (rightBase2.get_position() > input -5)))
+        pros:delay(2);
 }
