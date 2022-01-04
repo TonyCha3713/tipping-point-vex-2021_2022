@@ -9,5 +9,7 @@ extern pros::Motor rightBase2;
 extern pros::Motor rightBase3;
 extern pros::Motor intake;
 extern pros::Motor lift;
+extern pros::Motor backLift;
 extern pros::ADIDigitalOut piston;
+extern pros::ADIDigitalOut piston2;
 #endif

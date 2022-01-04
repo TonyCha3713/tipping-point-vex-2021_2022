@@ -44,18 +44,20 @@ void moveBase(double input, double speed)
     rightBase1.move_relative(input, speed); 
     rightBase2.move_relative(input, speed); 
     rightBase3.move_relative(input, speed); 
-    while (!((leftBase2.get_position() < input + 5) && (leftBase2.get_position() > input - 5))) 
+    while (!((leftBase2.get_position() < abs(input) + 5) && (leftBase2.get_position() > abs(input) - 5))) 
         pros::delay(2);
 }
 
 void turnBase(double input, double speed)
 {
+    std::cout << "works" << std::endl;
     leftBase1.move_relative(input, speed);
     leftBase2.move_relative(input, speed);
     leftBase3.move_relative(input, speed);
     rightBase1.move_relative(-input, speed);
     rightBase2.move_relative(-input, speed);
     rightBase3.move_relative(-input, speed);
+    input = abs(input);
     while(!((leftBase2.get_position() < input + 5) && (leftBase2.get_position() > input - 5)
         || (rightBase2.get_position() < input + 5) && (rightBase2.get_position() > input -5)))
         pros:delay(2);
