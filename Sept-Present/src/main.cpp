@@ -59,7 +59,7 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	auton();
+	winpoint();
 }
 
 /**
@@ -76,7 +76,8 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	bool hold = true;
+	bool hold;
+	bool pistonValue = false;
 	leftBase1.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	leftBase2.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	rightBase1.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
@@ -87,7 +88,7 @@ void opcontrol() {
 		
 		if(master.get_digital(E_CONTROLLER_DIGITAL_R1))
 			runLift(127);
-		else if (master.get_digital(E_CONTROLLER_DIGITAL_R2))
+		else if (master.get_digital(E_CONTROLLER_DIGITAL_A))
 			runLift(-127);
 		else runLift(0);
 
@@ -101,14 +102,15 @@ void opcontrol() {
 			runbackLift(127, hold);
 			//hold = false;
 		}
-		//else runbackLift(0, hold);
+		else runbackLift(0, hold);
 
-		if (master.get_digital(E_CONTROLLER_DIGITAL_A))
-			setBool(false);
-		else if (master.get_digital(E_CONTROLLER_DIGITAL_B))
-			setBool(true);
-
-		if (hold) backLift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+		if (master.get_digital_new_press(E_CONTROLLER_DIGITAL_R2))
+			setBool(pistonValue);
+		if (hold) 
+		{
+			//runbackLift(0);
+			backLift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+		}
 		hold = true;
 		pros::delay(20);
 	}

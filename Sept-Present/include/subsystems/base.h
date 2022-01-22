@@ -4,4 +4,5 @@ void runLeftBase(double input);
 void runRightBase(double input);
 void moveBase(double input, double speed);
 void turnBase(double input, double speed);
+void checkMoving(double input);
 #endif

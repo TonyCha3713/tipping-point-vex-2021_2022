@@ -1,7 +1,10 @@
 #include "main.h"
-void setBool(bool input)
+void setBool(bool &input)
 {
-    piston.set_value(input);
-    piston2.set_value(input);
+    bool value;
+    value = (input) ? false : true;
+    piston.set_value(value);
+    piston2.set_value(value);
+    input = !input;
 }
 

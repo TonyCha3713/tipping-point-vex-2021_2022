@@ -38,27 +38,54 @@ void runRightBase(double input)
 
 void moveBase(double input, double speed)
 {
+    leftBase1.tare_position(); leftBase2.tare_position(); leftBase3.tare_position();
+    rightBase1.tare_position(); rightBase2.tare_position(); rightBase3.tare_position();
     leftBase1.move_relative(input, speed); 
     leftBase2.move_relative(input, speed); 
     leftBase3.move_relative(input, speed); 
     rightBase1.move_relative(input, speed); 
     rightBase2.move_relative(input, speed); 
     rightBase3.move_relative(input, speed); 
-    while (!((leftBase2.get_position() < abs(input) + 5) && (leftBase2.get_position() > abs(input) - 5))) 
+    /*bool run = true;
+    while (run)
+    {
         pros::delay(2);
+        double avgPos = (leftBase1.get_position() + leftBase2.get_position() + leftBase3.get_position()
+            + rightBase1.get_position() + rightBase2.get_position() + rightBase3.get_position()) / 6.0;
+        run = (avgPos < abs(input));
+    }
+    //while (!((leftBase2.get_position() < abs(input) + 5) && (leftBase2.get_position() > abs(input) - 5))) 
+      //  pros::delay(2);*/
 }
 
 void turnBase(double input, double speed)
 {
     std::cout << "works" << std::endl;
-    leftBase1.move_relative(input, speed);
-    leftBase2.move_relative(input, speed);
-    leftBase3.move_relative(input, speed);
-    rightBase1.move_relative(-input, speed);
-    rightBase2.move_relative(-input, speed);
-    rightBase3.move_relative(-input, speed);
-    input = abs(input);
-    while(!((leftBase2.get_position() < input + 5) && (leftBase2.get_position() > input - 5)
-        || (rightBase2.get_position() < input + 5) && (rightBase2.get_position() > input -5)))
-        pros:delay(2);
+    leftBase1.tare_position(); leftBase2.tare_position(); leftBase3.tare_position();
+    rightBase1.tare_position(); rightBase2.tare_position(); rightBase3.tare_position();
+    leftBase1.move_relative(input, speed); 
+    leftBase2.move_relative(input, speed); 
+    leftBase3.move_relative(input, speed); 
+    rightBase1.move_relative(-input, speed); 
+    rightBase2.move_relative(-input, speed); 
+    rightBase3.move_relative(-input, speed); 
+    /*bool run = true;
+    while(run)
+    {
+
+        pros::delay(2);
+        double avgPos = (leftBase1.get_position() + leftBase2.get_position() + leftBase3.get_position()
+            + rightBase1.get_position() + rightBase2.get_position() + rightBase3.get_position()) / 6.0;
+        run = (avgPos < abs(input));
+    }*/
+}
+
+void checkMoving(double input)
+{
+    std:: cout << "checkMoving " << input << std::endl;
+    //input = abs(input);
+    while (1) {
+        double avgPos = (leftBase2.get_position() + rightBase2.get_position())/2.0;
+        if (avgPos <= input + 5 && avgPos >= input - 5) break;
+    }
 }
