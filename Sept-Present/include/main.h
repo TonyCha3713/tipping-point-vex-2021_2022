@@ -79,6 +79,7 @@ extern "C" {
     #include "./subsystems./lift.h"
     #include "./subsystems./pneumatics.h"
     #include "autons.h"
+    #include "PID.h"
     //using namespace std;
     #include <cmath>
     using namespace pros;

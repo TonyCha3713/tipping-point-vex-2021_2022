@@ -1,5 +1,6 @@
 #ifndef AUTONS_H
 #define AUTONS_H
-void auton();
-void winpoint();
+void rightMain();
+void rightMiddle();
+void left();
 #endif

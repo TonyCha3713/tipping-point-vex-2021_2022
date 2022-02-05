@@ -7,6 +7,7 @@
  * "I was pressed!" and nothing.
  */
 void on_center_button() {
+
 	static bool pressed = false;
 	pressed = !pressed;
 	if (pressed) {
@@ -23,6 +24,13 @@ void on_center_button() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
+	leftBase1.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	leftBase2.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	leftBase3.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	rightBase1.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	rightBase2.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	rightBase3.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	lift.set_brake_mode(E_MOTOR_BRAKE_HOLD);
 	pros::lcd::initialize();
 	pros::lcd::set_text(1, "Hello PROS User!");
 
@@ -45,7 +53,8 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {}
+void competition_initialize() {
+}
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -59,7 +68,7 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	winpoint();
+	rightMain();
 }
 
 /**
@@ -76,42 +85,34 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	bool hold;
-	bool pistonValue = false;
 	leftBase1.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	leftBase2.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	leftBase3.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	rightBase1.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	rightBase2.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	rightBase3.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	bool pistonValue = false;
+	std::uint_least32_t now = millis();
+	lift.set_brake_mode(E_MOTOR_BRAKE_HOLD);
 	while (true) {
-		runLeftBase(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y));
-		runRightBase(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
+		runLeftBase(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y) * 100/127);
+		runRightBase(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y) * 100/127);
 		
 		if(master.get_digital(E_CONTROLLER_DIGITAL_R1))
-			runLift(127);
+			runIntake(100);
 		else if (master.get_digital(E_CONTROLLER_DIGITAL_A))
-			runLift(-127);
-		else runLift(0);
+			runIntake(-100);
+		else runIntake(0);
 
 		if(master.get_digital(E_CONTROLLER_DIGITAL_L1))
-		{
-			runbackLift(-127, hold);
-			//hold = false;
-		}
+			runLift(-100);
 		else if (master.get_digital(E_CONTROLLER_DIGITAL_L2))
-		{
-			runbackLift(127, hold);
-			//hold = false;
-		}
-		else runbackLift(0, hold);
+			runLift(100);
+		else { runLift(0); lift.set_brake_mode(E_MOTOR_BRAKE_HOLD); }
 
 		if (master.get_digital_new_press(E_CONTROLLER_DIGITAL_R2))
 			setBool(pistonValue);
-		if (hold) 
-		{
-			//runbackLift(0);
-			backLift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-		}
-		hold = true;
-		pros::delay(20);
+
+		Task::delay_until(&now, 10);
 	}
 }
